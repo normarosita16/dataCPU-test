@@ -52,3 +52,29 @@ exports.list = async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 };
+
+exports.view = async (req, res) => {
+    const id = req.params.id
+    try {
+        const datas = await Datas.findById(id);
+        if (!datas) {
+            return res.status(404).json({ message: 'Data not found' });
+        }
+        return response.successResponseWithData(res, 'success', datas);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to retrieve data', error });
+    }
+  };
+
+  exports.delete = async (req, res) => {
+    const id = req.params.id
+    try {
+        const data = await Datas.findByIdAndDelete(id);
+        if (!data) {
+            return res.status(404).json({ message: 'Data not found' });
+        }
+        return response.successResponse(res, 'Data deleted successfully');
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to delete data', error });
+    }
+  };
