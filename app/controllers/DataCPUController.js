@@ -36,16 +36,11 @@ exports.list = async (req, res) => {
   const search = req.query.search || '';
 
   try {
-    const datas = await Datas.find({
-      name: { $regex: search, $options: 'i' }
-    })
+    const datas = await Datas.find()
     .skip(offset)
     .limit(limit)
-    .sort({ created_date: -1 }); // Sort in descending order
 
-    const totalData = await Datas.countDocuments({
-      name: { $regex: search, $options: 'i' }
-    });
+    const totalData = await Datas.countDocuments();
 
     const payload = {
       content: datas,
